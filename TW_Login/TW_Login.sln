@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TW_Login", "TW_Login\TW_Login.vcxproj", "{2F6E551E-ECDF-4F3E-B9F6-6D6A1907AFD0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TW_Login_Dev", "TW_Login_Dev\TW_Login_Dev.vcxproj", "{5584856E-593A-4734-8076-3AB21006FAC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F6E551E-ECDF-4F3E-B9F6-6D6A1907AFD0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F6E551E-ECDF-4F3E-B9F6-6D6A1907AFD0}.Debug|Win32.Build.0 = Debug|Win32
+		{2F6E551E-ECDF-4F3E-B9F6-6D6A1907AFD0}.Release|Win32.ActiveCfg = Release|Win32
+		{2F6E551E-ECDF-4F3E-B9F6-6D6A1907AFD0}.Release|Win32.Build.0 = Release|Win32
+		{5584856E-593A-4734-8076-3AB21006FAC4}.Debug|Win32.ActiveCfg = Release|Win32
+		{5584856E-593A-4734-8076-3AB21006FAC4}.Debug|Win32.Build.0 = Release|Win32
+		{5584856E-593A-4734-8076-3AB21006FAC4}.Release|Win32.ActiveCfg = Release|Win32
+		{5584856E-593A-4734-8076-3AB21006FAC4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
