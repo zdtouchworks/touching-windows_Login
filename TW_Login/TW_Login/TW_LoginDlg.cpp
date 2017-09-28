@@ -53,7 +53,6 @@ BEGIN_MESSAGE_MAP(CTW_LoginDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN_OK, OnBnClickedLogin)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN_DESTROY, OnBnClickedDestroy)
 	ON_WM_DESTROY()
-	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -409,7 +408,7 @@ BOOL CTW_LoginDlg::EncryptAndSavedLoginInfo(void)
 		ByteFillChar(pszEncrypted, chPadding, dwLen * 2);
 		Encrypt(szKey, nKeyLen, chPadding, nPaddingType, szSrc, dwLen, (char*)pszEncrypted);
 
-		std::ofstream out("C:\\Touchworks\\Touchwork.DAT");
+		std::ofstream out("C:\\Touchworks\\Touchworks.DAT");
 		std::string str;
 
 		if (out.is_open())
@@ -487,64 +486,6 @@ BOOL CTW_LoginDlg::PreTranslateMessage(MSG* pMsg)
 			
 		}
 	}
-	/*
-	if (pMsg->message == WM_LBUTTONUP)
-	{
-		CRect rect;
-
-		if (pMsg->hwnd == cBtn_OK.GetSafeHwnd())
-		{
-			cBtn_OK.GetWindowRect(rect);
-			//if ((rect.left <= pMsg->pt.x >= rect.right) && (rect.top <= pMsg->pt.y >= rect.right))
-			if (rect.PtInRect(pMsg->pt))
-			{
-				CString cStr_PosID = TEXT("");
-				CString cStr_Pwd = TEXT("");
-
-				cEdit_LoginID.GetWindowTextW(cStr_PosID);
-				cEdit_Password.GetWindowTextW(cStr_Pwd);
-
-				if (cStr_PosID != TEXT("") && cStr_Pwd != TEXT(""))
-				{
-					CString str_PosID = TEXT("");
-					CString str_Pwd = TEXT("");
-				
-					cEdit_LoginID.GetWindowTextW(str_PosID);
-					cEdit_Password.GetWindowTextW(str_Pwd);
-#ifdef DEVELOPERS
-					cEdit_URL.GetWindowTextW(cStr_Url);
-					cStr_Url = TEXT("http://") + cStr_Url;
-#endif
-					m_LoginWnd.AutoLoginByButton(cStr_Url, str_PosID, str_Pwd, TEXT("new_user"), TEXT("user[login_id]"), TEXT("user[password]"), TEXT("commit"));
-
-					if (IsDlgButtonChecked(IDC_BUTTON_CHK_AUTOLOGIN))
-					{
-						EncryptAndSavedLoginInfo();
-					}
-				}
-				else if (cStr_PosID == TEXT(""))
-				{
-					MessageBox(TEXT("아이디를 입력해주세요."));
-
-				}
-				else if (cStr_Pwd == TEXT(""))
-				{
-					MessageBox(TEXT("비밀번호를 입력해주세요."));
-				}
-			}
-		}
-		else if (pMsg->hwnd == cBtn_Destroy.GetSafeHwnd())
-		{
-			cBtn_Destroy.GetWindowRect(rect);
-			if (rect.PtInRect(pMsg->pt))
-			{
-				m_nFlags = 1;
-				//DestroyWindow();
-				PostMessage(WM_CLOSE);
-			}
-		}
-	}
-	*/
 
 	return CDialog::PreTranslateMessage(pMsg);
 }
@@ -868,9 +809,9 @@ BOOL CTW_LoginDlg::ReadAndDecrypt(void)
 	// --zd. 저장되는 시점이 로그인 완료 후여야 하진 않을까?
 	//if (IsDlgButtonChecked(IDC_BUTTON_CHK_AUTOLOGIN))
 	//{
-		std::ifstream in("C:\\Touchworks\\Touchwork.DAT");
+		std::ifstream in("C:\\Touchworks\\Touchworks.DAT");
 	////std::ifstream in;
-	////in.open(TEXT("Touchwork.DAT"));
+	////in.open(TEXT("Touchworks.DAT"));
 
 		////std::string str;
 
@@ -882,13 +823,6 @@ BOOL CTW_LoginDlg::ReadAndDecrypt(void)
 
 	USES_CONVERSION;
 	cstrBuffer = A2W((char*)pBuffer);
-
-	// zd. CString에 받아온 문자열을 unsigned char* 버퍼에 복사.
-	//strcpy((char*)szSrc, (CStringA)cstrBuffer);
-	//strcpy((char*)szSrc, (char*)pBuffer);
-
-	//unsigned char szSrc[41] = {"1234567890123456123456789012345612345678"};
-	//AfxMessageBox((CString)szSrc, MB_OK, NULL);
 
 	int nSrcLen = cstrBuffer.GetLength() + 1;
 
@@ -908,7 +842,6 @@ BOOL CTW_LoginDlg::ReadAndDecrypt(void)
 	
 
 	Decrypt(szKey, nKeyLen, chPadding, nPaddingType, pBuffer, lstrlenA((const char*)pBuffer), (char*)pszPlain);
-	//Decrypt(szKey, nKeyLen, chPadding, nPaddingType, pszEncrypted, lstrlenA((const char*)pszEncrypted), (char*)pszPlain);
 				
 	//USES_CONVERSION;
 	CString strTemp;
@@ -921,103 +854,7 @@ BOOL CTW_LoginDlg::ReadAndDecrypt(void)
 	LocalFree(pszEncrypted);
 	LocalFree(pszPlain);
 
-	
-	//GetDlgItem(IDC_EDIT_LOGIN_POSID)->SetWindowTextW(cStr_LoginID);
-	//GetDlgItem(IDC_EDIT_LOGIN_PWD)->SetWindowTextW(cStr_Password[0]);
 
 	return TRUE;
 }
 
-/*
-CString cstrIn;
-LPTSTR lpszOut;
-//int CTW_LoginDlg::Encrypt(LPCTSTR lpszIn, LPSTR lpszOut, int nBufLen)
-int CTW_LoginDlg::Encrypt(void)
-{
-	int result = 0;
-	
-	cstrIn = TEXT("가나다라");
-	
-
-	HCRYPTPROV hProv;
-	HCRYPTHASH hHash;
-	HCRYPTKEY hKey;
-	CString csPass = TEXT("PASSWORD");
-	DWORD dwLen = lstrlen(cstrIn);
-
-	if (!CryptAcquireContext(&hProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, 0))
-	{
-		if (!CryptAcquireContext(&hProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET))
-		{
-			return -1;
-		}
-	}
-	
-	//USES_CONVERSION;
-	//lpszOut = T2A(lpszIn);
-
-	lpszOut = new TCHAR[cstrIn.GetLength() + 1];
-	_tcscpy(lpszOut, cstrIn);
-
-	//lpszOut = cstrIn.GetBuffer(cstrIn.GetLength());
-
-	CryptCreateHash(hProv, CALG_SHA, 0, 0, &hHash);
-	CryptHashData(hHash, (BYTE*)(LPCTSTR)csPass, csPass.GetLength(), 0);
-	CryptDeriveKey(hProv, CALG_RC4, hHash, 0x0080 * 0x10000, &hKey);
-	CryptEncrypt(hKey, 0, TRUE, 0, (BYTE*)lpszOut, &dwLen, sizeof(lpszOut));
-	CryptDestroyHash(hHash);
-	CryptReleaseContext(hProv, 0);
-
-
-	hProv = NULL;
-	hHash = NULL;
-	hKey = NULL;
-
-	cstrIn.Empty();
-	USES_CONVERSION;
-	cstrIn = T2CW(lpszOut);
-	delete [] lpszOut;
-	lpszOut = NULL;
-	dwLen = lstrlen(cstrIn);
-
-	csPass = TEXT("qqqqqqqq");
-
-	if (!CryptAcquireContext(&hProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, 0))
-	{
-		if (!CryptAcquireContext(&hProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET))
-		{
-			return -1;
-		}
-	}
-
-	lpszOut = new TCHAR[cstrIn.GetLength() + 1];
-	_tcscpy(lpszOut, cstrIn);
-
-	CryptCreateHash(hProv, CALG_SHA, 0, 0, &hHash);
-	CryptHashData(hHash, (BYTE*)(LPCTSTR)csPass, csPass.GetLength(), 0);
-	CryptDeriveKey(hProv, CALG_RC4, hHash, 0x0080 * 0x10000, &hKey);
-	CryptDecrypt(hKey, 0, TRUE, 0, (BYTE*)lpszOut, &dwLen);
-	CryptDestroyHash(hHash);
-	CryptReleaseContext(hProv, 0);
-	
-
-	return result;
-}
-
-int CTW_LoginDlg::Decrypt(void)
-{
-	int result = 0;
-
-
-	return result;
-}
-*/
-
-
-
-void CTW_LoginDlg::OnSize(UINT nType, int cx, int cy)
-{
-	CDialog::OnSize(nType, cx, cy);
-
-	// TODO: Add your message handler code here
-}

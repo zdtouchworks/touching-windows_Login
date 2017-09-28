@@ -182,5 +182,4 @@ public:
 	afx_msg void OnDestroy();
 	virtual void OnOK();
 	virtual void OnCancel();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

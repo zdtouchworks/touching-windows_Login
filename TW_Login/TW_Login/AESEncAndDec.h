@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "stdafx.h"
-
+#include <WinCrypt.h> // visual studio 2008 (v90) 일 때 include 필요. 2012일 땐 이미 include 되어 있음.
 #define AES_KEY_LENGTH		32
 #define SOURCE_MULTIPLE		16
 #define BLOCK_SIZE			16
